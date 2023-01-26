@@ -10,18 +10,21 @@ builder.Services.AddReverseProxy()
         {
             builderContext.AddRequestTransform(async transformContext =>
             {
+
+                string blazorUrl = builder.Configuration["ReverseProxy:Clusters:BlazorApp:Destinations:Server1:Address"];
                 if (transformContext.Path.ToString().Contains("/_framework"))
                 {
                     string path = transformContext.Path.ToString().Split("/_framework")[1];
 
-                    transformContext.Path = "/_framework" + path;
+                    transformContext.ProxyRequest.RequestUri = new Uri(blazorUrl + "/_framework" + path);
+
                 }
 
                 if (transformContext.Path.ToString().Contains("/_blazor"))
                 {
                     string path = transformContext.Path.ToString().Split("/_blazor")[1];
 
-                    transformContext.Path = "/_blazor" + path;
+                    transformContext.ProxyRequest.RequestUri = new Uri(blazorUrl + "/_blazor" + path);
                 }
 
 
@@ -29,7 +32,7 @@ builder.Services.AddReverseProxy()
                 {
                     string path = transformContext.Path.ToString().Split("/_content")[1];
 
-                    transformContext.Path = "/_content" + path;
+                    transformContext.ProxyRequest.RequestUri = new Uri(blazorUrl + "/_content" + path);
                 }
 
             });
