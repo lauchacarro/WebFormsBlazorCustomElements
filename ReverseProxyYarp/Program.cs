@@ -42,6 +42,11 @@ builder.Services.AddReverseProxy()
                     transformContext.ProxyRequest.RequestUri = new Uri(blazorUrl + "/_content" + path);
                 }
 
+                if (transformContext.Path.ToString().Contains("/BlazorAppFacturas.styles.css"))
+                {
+                    transformContext.ProxyRequest.RequestUri = new Uri(blazorUrl + "/BlazorAppFacturas.styles.css");
+                }
+
             });
         }
     });

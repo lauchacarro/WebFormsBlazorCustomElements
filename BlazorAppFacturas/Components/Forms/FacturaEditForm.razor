@@ -1,0 +1,199 @@
+﻿@using Microsoft.EntityFrameworkCore;
+@inject NavigationManager Navigation
+@inject FacturasDbContext Context
+@inject IJSRuntime JS
+
+
+
+@if (factura is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+
+    <PageTitle>Editar Factura @factura.Codigo</PageTitle>
+
+    <div class="container">
+
+        <EditForm OnSubmit="@OnSubmit" EditContext="@editContext">
+
+
+            <div class="mb-3">
+
+                <div class="form-group">
+                    <label for="codigo" class="form-label">Codigo:</label>
+                    <InputText id="codigo" @bind-Value="@facturaModel.Codigo" class="form-control" disabled />
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+
+                <div class="form-group">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <InputText id="descripcion" @bind-Value="@facturaModel.Descripcion" class="form-control" />
+                </div>
+            </div>
+
+
+
+
+            <div class="mb-3">
+
+                <div class="form-group">
+                    <label for="total" class="form-label">Total</label>
+                    <InputNumber @bind-Value="@facturaModel.Total" class="form-control" id="total" />
+
+
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+
+                <div class="form-group">
+                    <label for="subtotal" class="form-label">SubTotal</label>
+                    <InputNumber @bind-Value="@facturaModel.SubTotal" class="form-control" id="subtotal" />
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="vendedor" class="form-label">Vendedor:</label>
+                    <InputSelect @bind-Value="@facturaModel.Vendedor" class="form-select" id="vendedor">
+                        <option value="-1">--Seleccionar Vendedor--</option>
+                        <option value="Joe Girard">Joe Girard</option>
+                        <option value="Dave Liniger">Dave Liniger</option>
+                        <option value="Jair Hernández">Jair Hernández</option>
+                    </InputSelect>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+
+                <div class="form-group">
+                    <label for="metodopago" class="form-label">Metodo de Pago:</label>
+                    <InputSelect @bind-Value="@facturaModel.MetodoPago" class="form-select" id="metodopago">
+                        <option value="-1">--Seleccionar Metodo de Pago--</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Debito">Debito</option>
+                        <option value="Credito">Credito</option>
+                    </InputSelect>
+
+
+                </div>
+            </div>
+
+            <div class="mb-3">
+
+                <div class="form-check">
+                    <InputCheckbox @bind-Value="@facturaModel.Pagado" class="form-check-input" id="pagado" />
+                    <label for="pagado" class="form-check-label">Pagado:</label>
+
+                </div>
+            </div>
+
+
+
+
+            <button type="submit" class="btn btn-success">
+                Editar
+            </button>
+        </EditForm>
+
+        <NavigationLock ConfirmExternalNavigation="@(editContext!.IsModified())"
+                    OnBeforeInternalNavigation="ConfirmInternalNavigation" />
+
+    </div>
+
+}
+
+@code {
+    FacturaEditFormModel facturaModel = new();
+    Factura? factura = null;
+
+    EditContext editContext = default!;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        factura = await Context.Facturas.Where(x => x.Id == Id).FirstOrDefaultAsync();
+
+        if (factura is not null)
+        {
+            facturaModel = new FacturaEditFormModel
+                {
+                    Id = factura.Id,
+                    Descripcion = factura.Descripcion,
+                    Codigo = factura.Codigo,
+                    Total = factura.Total,
+                    SubTotal = factura.SubTotal,
+                    Pagado = factura.Pagado,
+                    Vendedor = factura.Vendedor,
+                    MetodoPago = factura.MetodoPago,
+                };
+
+            editContext = new EditContext(facturaModel);
+        }
+
+
+    }
+
+    async Task OnSubmit(EditContext editContext)
+    {
+        var model = editContext.Model as FacturaEditFormModel;
+
+        if (model is not null && factura is not null)
+        {
+            factura.Descripcion = model.Descripcion;
+            factura.Total = model.Total;
+            factura.SubTotal = model.SubTotal;
+            factura.Pagado = model.Pagado;
+
+            factura.Vendedor = factura.Vendedor;
+            factura.MetodoPago = factura.MetodoPago;
+
+            Context.Facturas.Update(factura);
+
+            await Context.SaveChangesAsync();
+
+            if (OnValidSubmit.HasDelegate)
+            {
+                await OnValidSubmit.InvokeAsync();
+            }
+        }
+    }
+
+    async Task ConfirmInternalNavigation(LocationChangingContext locationChanging)
+    {
+        if (editContext.IsModified())
+        {
+            var isConfirmed = await JS.InvokeAsync<bool>("confirm", "Discard your changes?");
+            if (!isConfirmed)
+            {
+                locationChanging.PreventNavigation();
+            }
+        }
+    }
+
+    public class FacturaEditFormModel
+    {
+        public int Id { get; set; }
+        public string Codigo { get; set; }
+        public string Descripcion { get; set; }
+        public string Vendedor { get; set; }
+        public string MetodoPago { get; set; }
+        public decimal Total { get; set; }
+        public decimal SubTotal { get; set; }
+        public bool Pagado { get; set; }
+    }
+
+}

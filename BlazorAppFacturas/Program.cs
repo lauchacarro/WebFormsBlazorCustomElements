@@ -1,3 +1,4 @@
+using BlazorAppFacturas.Components.Forms;
 using BlazorAppFacturas.Data;
 using BlazorAppFacturas.Pages.Facturas;
 using BlazorAppFacturas.Shared;
@@ -13,7 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor(o =>
 {
     o.RootComponents.RegisterCustomElement<SurveyPrompt>("survey-prompt");
-    o.RootComponents.RegisterCustomElement<EditarFactura>("editar-factura");
+    o.RootComponents.RegisterCustomElement<FacturaEditForm>("editar-factura-form");
 });
 
 builder.Services.AddDbContext<FacturasDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));

@@ -3,7 +3,8 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2><%: Title %>.</h2>
-    <%= this.Id %>
+
+
 
     <div class="form-group">
         <label>Codigo</label>
@@ -70,6 +71,6 @@
 
 
 
-    <editar-factura id="<%= this.Id %>" />
+    <editar-factura-form id="<%= this.Id %>" />
 
 </asp:Content>

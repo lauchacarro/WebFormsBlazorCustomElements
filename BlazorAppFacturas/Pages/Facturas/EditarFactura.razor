@@ -1,37 +1,21 @@
 ﻿@page "/facturas/editar/{Id:int}"
-@using Entities;
-@using Microsoft.EntityFrameworkCore;
 @inject NavigationManager Navigation
-@inject Data.FacturasDbContext Context
 
 
-<h3>EditarFactura</h3>
+<h3>Editar Factura</h3>
 
-@if (factura is null)
-{
-    <p>Loading...</p>
-}
-
-<button @onclick="Editar">Editar</button>
+<FacturaEditForm Id="@Id" OnValidSubmit="OnSubmit" />
 
 @code {
-    Factura? factura = null;
 
     [Parameter]
     public int Id { get; set; }
 
-    protected override async Task OnInitializedAsync()
+
+
+    void OnSubmit()
     {
-        factura = await Context.Facturas.Where(x => x.Id == Id).FirstOrDefaultAsync();
-    }
 
-    async Task Editar()
-    {
-        factura.Descripcion = factura.Descripcion + " EDITADO";
-
-        Context.Facturas.Update(factura);
-
-        await Context.SaveChangesAsync();
 
         Navigation.NavigateTo("/");
     }
