@@ -17,13 +17,16 @@ namespace WebApplication17.Facturas
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
         SqlConnection con;
 
+        public int Id { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
 
+            string facturaId = Request.QueryString["Id"];
+            Id = int.Parse(facturaId);
+
             if (!Page.IsPostBack)
             {
-                string facturaId = Request.QueryString["Id"];
-
+               
                 using (con = new SqlConnection(connectionString))
                 {
                     con.Open();
