@@ -62,7 +62,7 @@ else
             <div class="mb-3">
                 <div class="form-group">
                     <label for="vendedor" class="form-label">Vendedor:</label>
-                    <InputSelect @bind-Value="@facturaModel.Vendedor" class="form-select" id="vendedor">
+                    <InputSelect @bind-Value="@facturaModel.Vendedor" class="form-control form-select" id="vendedor">
                         <option value="-1">--Seleccionar Vendedor--</option>
                         <option value="Joe Girard">Joe Girard</option>
                         <option value="Dave Liniger">Dave Liniger</option>
@@ -76,7 +76,7 @@ else
 
                 <div class="form-group">
                     <label for="metodopago" class="form-label">Metodo de Pago:</label>
-                    <InputSelect @bind-Value="@facturaModel.MetodoPago" class="form-select" id="metodopago">
+                    <InputSelect @bind-Value="@facturaModel.MetodoPago" class="form-control form-select" id="metodopago">
                         <option value="-1">--Seleccionar Metodo de Pago--</option>
                         <option value="Efectivo">Efectivo</option>
                         <option value="Debito">Debito</option>
