@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace WebApplication17.Facturas
+namespace WebFormsFacturas.Facturas
 {
     public partial class Crear : System.Web.UI.Page
     {

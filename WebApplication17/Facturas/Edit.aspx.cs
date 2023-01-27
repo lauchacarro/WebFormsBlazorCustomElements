@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Reflection.Emit;
 
-namespace WebApplication17.Facturas
+namespace WebFormsFacturas.Facturas
 {
     public partial class Edit : System.Web.UI.Page
     {
@@ -22,11 +22,16 @@ namespace WebApplication17.Facturas
         {
 
             string facturaId = Request.QueryString["Id"];
-            Id = int.Parse(facturaId);
+
+            if (int.TryParse(facturaId, out int _id))
+            {
+                Id = _id;
+            }
+
 
             if (!Page.IsPostBack)
             {
-               
+
                 using (con = new SqlConnection(connectionString))
                 {
                     con.Open();

@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
 
-namespace WebApplication17.Facturas
+namespace WebFormsFacturas.Facturas
 {
     public partial class Index : System.Web.UI.Page
     {

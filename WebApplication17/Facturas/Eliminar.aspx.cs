@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.ComponentModel;
 
-namespace WebApplication17.Facturas
+namespace WebFormsFacturas.Facturas
 {
     public partial class Eliminar : System.Web.UI.Page
     {

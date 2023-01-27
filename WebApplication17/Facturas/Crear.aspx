@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Crear Factura" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Crear.aspx.cs" Inherits="WebApplication17.Facturas.Crear" %>
+﻿<%@ Page Title="Crear Factura" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Crear.aspx.cs" Inherits="WebFormsFacturas.Facturas.Crear" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 

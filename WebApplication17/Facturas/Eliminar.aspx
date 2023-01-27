@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Eliminar Factura" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Eliminar.aspx.cs" Inherits="WebApplication17.Facturas.Eliminar" %>
+﻿<%@ Page Title="Eliminar Factura" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Eliminar.aspx.cs" Inherits="WebFormsFacturas.Facturas.Eliminar" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
