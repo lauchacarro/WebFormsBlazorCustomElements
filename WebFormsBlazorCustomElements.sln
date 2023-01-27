@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormsFacturas", "WebApplication17\WebFormsFacturas.csproj", "{EB5F4150-15B2-4641-B37A-44C4E349DFFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormsFacturas", "WebFormsFacturas\WebFormsFacturas.csproj", "{EB5F4150-15B2-4641-B37A-44C4E349DFFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppFacturas", "BlazorAppFacturas\BlazorAppFacturas.csproj", "{B986C684-9622-4581-B180-0E6430C92633}"
 EndProject
