@@ -16,7 +16,7 @@ else
 
     <div class="container">
 
-        <EditForm OnSubmit="@OnSubmit" EditContext="@editContext">
+        <EditForm OnValidSubmit="@OnSubmit" EditContext="@editContext">
 
 
             <div class="mb-3">
@@ -104,8 +104,12 @@ else
             </button>
         </EditForm>
 
-        <NavigationLock ConfirmExternalNavigation="@(editContext!.IsModified())"
+        @if (!savechanged)
+        {
+            <NavigationLock ConfirmExternalNavigation="@(editContext.IsModified())"
                     OnBeforeInternalNavigation="ConfirmInternalNavigation" />
+        }
+
 
     </div>
 
@@ -114,6 +118,7 @@ else
 @code {
     FacturaEditFormModel facturaModel = new();
     Factura? factura = null;
+    bool savechanged = false;
 
     EditContext editContext = default!;
 
@@ -122,6 +127,9 @@ else
 
     [Parameter]
     public EventCallback OnValidSubmit { get; set; }
+
+    [Parameter]
+    public string? OnValidSubmitJs { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -142,35 +150,55 @@ else
                 };
 
             editContext = new EditContext(facturaModel);
+            editContext.OnFieldChanged += EditContext_OnFieldChanged;
         }
 
 
+    }
+
+    void EditContext_OnFieldChanged(object? sender, FieldChangedEventArgs field)
+    {
+        StateHasChanged();
     }
 
     async Task OnSubmit(EditContext editContext)
     {
         var model = editContext.Model as FacturaEditFormModel;
 
-        if (model is not null && factura is not null)
+        if (editContext.IsModified())
         {
             factura.Descripcion = model.Descripcion;
             factura.Total = model.Total;
             factura.SubTotal = model.SubTotal;
             factura.Pagado = model.Pagado;
 
-            factura.Vendedor = factura.Vendedor;
-            factura.MetodoPago = factura.MetodoPago;
+            factura.Vendedor = model.Vendedor;
+            factura.MetodoPago = model.MetodoPago;
 
             Context.Facturas.Update(factura);
 
             await Context.SaveChangesAsync();
 
+            editContext.MarkAsUnmodified();
+
+            savechanged = true;
+
+            StateHasChanged();
+
             if (OnValidSubmit.HasDelegate)
             {
                 await OnValidSubmit.InvokeAsync();
             }
+
+            if (!string.IsNullOrWhiteSpace(OnValidSubmitJs))
+            {
+                await JS.InvokeVoidAsync(OnValidSubmitJs);
+            }
+
+
         }
     }
+
 
     async Task ConfirmInternalNavigation(LocationChangingContext locationChanging)
     {

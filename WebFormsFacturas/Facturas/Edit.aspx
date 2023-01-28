@@ -6,6 +6,7 @@
 
 
 
+
     <div class="form-group">
         <label>Codigo</label>
         <asp:TextBox ReadOnly="true" runat="server" ID="TxtCodigo" CssClass="form-control" />
@@ -71,6 +72,15 @@
 
 
 
-    <editar-factura-form id="<%= this.Id %>" />
+    <editar-factura-form id="<%= this.Id %>" on-valid-submit-js="facturaEdited" />
+
+    <script type="text/javascript">
+        function facturaEdited() {
+
+            window.location.href = "/Facturas/Index";
+        }
+    </script>
+
 
 </asp:Content>
+
